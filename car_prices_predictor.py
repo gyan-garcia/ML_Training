@@ -13,10 +13,9 @@ import pandas as pd
 import matplotlib.image as mpimg
 
 
-# Just a helper function to predict and evaluate the results
 def predict_and_plot(model, test_set, plot_title):
 
-    # Let's prepare the data into something more readable    
+    # Let's turn the data into something more readable    
     test_set_elements_count = test_set.shape[0]
     test_features = np.float64(test_set[0:test_set_elements_count, 0:3])
     real_prices = np.float64(test_set[0:test_set_elements_count, 3])
@@ -25,11 +24,11 @@ def predict_and_plot(model, test_set, plot_title):
     # Do the prediction
     predicted_prices = model.predict(test_features)
 
-    # Compare the predicted price vs the real price using a graph
+    # Compare the predicted price vs the real price rendering a graph
     x_ind = np.arange(test_set_elements_count)
     fig = plt.figure()
-    plt.scatter(x_ind, predicted_prices,   label="predicted price")
-    plt.scatter(x_ind, real_prices,  label="real price")
+    plt.scatter(x_ind, predicted_prices, label="predicted price")
+    plt.scatter(x_ind, real_prices, label="real price")
     plt.xticks(x_ind, car_names, rotation='vertical')
     plt.legend(loc='best')
     fig.suptitle(plot_title, fontsize=20)
@@ -38,9 +37,9 @@ def predict_and_plot(model, test_set, plot_title):
     # Get the regression score
     # http://scikit-learn.org/stable/modules/generated/sklearn.metrics.r2_score.html#sklearn.metrics.r2_score
     print ("R^2 Regression score:", metrics.r2_score(real_prices, predicted_prices))
-
-
-
+    
+    # Explained variance score: 1 is perfect prediction
+    print('Variance score: %.2f' % model.score(test_features, model.predict(test_features)))
 
    
 # # # # ## # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
@@ -83,12 +82,12 @@ logistic_regression_model.fit(features, prices.ravel())
 # # # # ## # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # https://www.cars.com/research/compare/?acodes=USC60KIC052A0,USC60FOC071A0,USC60BUC081A0
 #                     MPG, HP,   Rating,  Price,  Name
-test_set = np.array([[28,  185,  4.9,     22990,  "Kia Optima"],
+test_set = np.array([[35,  106,  4.0,     15700,  "Scion iA"],
+                     [28,  150,  4.9,     22610,  "Volkswagen Jetta"],
+                     [28,  185,  4.9,     22990,  "Kia Optima"],
                      [21,  240,  4.8,     28095,  "Ford Taurus"],
                      [23,  304,  4.3,     31990,  "Buick Lacrosse"],
-                     [30,  240,  5.0,     34150,  "Volvo S60"],
-                     [28,  150,  4.9,     22610,  "Volkswagen Jetta"],
-                     [35,  106,  4.0,     15700,  "Scion iA"],])
+                     [30,  240,  5.0,     34150,  "Volvo S60"],])
 
 predict_and_plot(logistic_regression_model, test_set, "Logistic regression")
 
