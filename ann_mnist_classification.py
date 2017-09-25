@@ -18,9 +18,6 @@ def display_digit(data, labels, i):
     plt.imshow(img.reshape((28,28)), cmap=plt.cm.gray_r)
 
 
-batch_size = 32
-num_classes = 10
-
 
 # the data, shuffled and split between train and test sets
 (x_train, y_train), (x_test, y_test) = mnist.load_data()
@@ -44,6 +41,9 @@ display_digit(x_train, y_train, 50)
 display_digit(x_train, y_train, 550)
 
 
+num_classes = 10
+
+
 # convert class vectors to binary class matrices
 y_train = keras.utils.to_categorical(y_train, num_classes)
 y_test = keras.utils.to_categorical(y_test, num_classes)
@@ -51,10 +51,9 @@ y_test = keras.utils.to_categorical(y_test, num_classes)
 
 # create model
 model = Sequential()
-#model.add(Dense(32, input_dim=784, activation='relu')) 
-#model.add(Dense(16, activation='relu'))
-#model.add(Dense(num_classes, activation='softmax'))
-    
+model.add(Dense(16, input_dim=784, activation='relu')) 
+model.add(Dense(8, activation='relu')) 
+   
 model.add(Dense(num_classes, input_dim=784, activation='softmax')) 
 
 # Compile model
@@ -62,7 +61,7 @@ model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accur
 
         
 # Fit the model
-model.fit(x_train.reshape(60000, 784), y_train, epochs=20, batch_size=32)
+model.fit(x_train.reshape(60000, 784), y_train, epochs=5, batch_size=32)
 
 # Score the model
 scores = model.evaluate(x_test.reshape(10000, 784), y_test, verbose=0)

@@ -83,7 +83,7 @@ plot_classification_model_decision_boundary(model, features, labels)
 
 
 # load non-linear dataset
-df = pd.read_csv('.\\regression_data_2.csv')
+df = pd.read_csv('.\\regression_non_linear_data.csv')
 features = np.array(df.as_matrix(columns= df.columns[0:2]))
 labels = np.array(df.as_matrix(columns= df.columns[2:3]))
     
